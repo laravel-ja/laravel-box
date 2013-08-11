@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Ubuntu12.04+Laravel4 再パッケージ時用 Vagrantfile
+
+Vagrant.configure("2") do |config|
+
+  # 作成したボックス名を指定してください
+  config.vm.box = "ubuntu32laravel4"
+
+  # SSH リトライ回数
+  config.ssh.max_tries = 10
+
+  # ホスト名
+  config.vm.hostname = "laravel.local"
+
+  # ポートフォワード 複数マシン作成する時はダブらないように変更します
+  config.vm.network :forwarded_port, guest: 80, host: 55555
+  config.vm.network :forwarded_port, guest: 3306, host: 55556
+  config.vm.network :forwarded_port, guest: 5432, host: 55557
+
+  # 共有フォルダー
+  config.vm.synced_folder "www/", "/var/www", :extra => 'dmode=777,fmode=777'
+
+  # ホスト側でもchmod -R 777 www/app/storageを実行する必要があるかも知れません
+
+end

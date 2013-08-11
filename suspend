@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Execute suspend vagrant command in this directory
+
+# このファイルが存在するディレクトリーへ移動
+
+filePath=`readlink -f $0`
+cd $(dirname $filePath)
+echo $(pwd)
+
+# 状態を取得する
+# このスクリプトは仮想マシンが１インスタンスのみ
+# 'default`として動作することを前提としている
+
+# 実行中であればstatは'1'になる
+
+stat=`vagrant status | grep 'default' | sed 's/.*running.*/1/'`
+
+# 実行時のみsuspend実行
+if [ "$stat" = "1" ]
+then
+    vagrant suspend
+fi

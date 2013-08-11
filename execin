@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# execin : execute in
+
+# Execute specified vagrant command in this directory
+
+filePath=`readlink -f $0`
+cd $(dirname $filePath);
+echo $(pwd)
+
+vagrant $@
